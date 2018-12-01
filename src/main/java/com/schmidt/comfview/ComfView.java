@@ -15,8 +15,9 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.youtube.YouTubeScopes;
 import com.google.api.services.youtube.model.*;
 import com.google.api.services.youtube.YouTube;
-import com.schmidt.comfview.utils.Print;
-import com.schmidt.comfview.utils.Search;
+import com.schmidt.comfview.handler.PrintHandler;
+import com.schmidt.comfview.handler.SearchHandler;
+import com.schmidt.comfview.input.InputHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -100,22 +101,22 @@ public class ComfView {
                 .build();
     }
 
+    public static YouTube youtube;
+
     public static void main(String[] args) throws IOException {
-        YouTube youtube = getYouTubeService();
-        Search search = new Search();
-        Print print = new Print();
+        youtube = getYouTubeService();
+        InputHandler inputHandler = new InputHandler();
 
         try {
-            ArrayList<SearchResult> results;
+            switch (args[0]){
+                case "search":
+                    inputHandler.handleSearch(args);
+                    break;
 
-            YouTube.Search.List searchListByKeywordRequest = youtube.search().list("snippet");
-            results = search.searchChannel(searchListByKeywordRequest, "Jay Swingler");
-            print.printChannels(results);
+                default:
+                    throw new IllegalArgumentException();
+            }
 
-        } catch (GoogleJsonResponseException e) {
-            e.printStackTrace();
-            System.err.println("There was a service error: " +
-                    e.getDetails().getCode() + " : " + e.getDetails().getMessage());
         } catch (Throwable t) {
             t.printStackTrace();
         }
