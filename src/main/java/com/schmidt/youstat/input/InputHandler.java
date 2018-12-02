@@ -1,7 +1,9 @@
 package com.schmidt.youstat.input;
 
 import com.google.api.services.youtube.YouTube;
-import com.schmidt.youstat.handler.PrintHandler;
+import com.schmidt.youstat.handler.ListHandler;
+import com.schmidt.youstat.print.PrintList;
+import com.schmidt.youstat.print.PrintSearch;
 import com.schmidt.youstat.handler.SearchHandler;
 
 import java.io.IOException;
@@ -11,32 +13,59 @@ import static com.schmidt.youstat.YouStat.youtube;
 public class InputHandler {
 
     private SearchHandler searchHandler;
-    private PrintHandler printHandler;
+    private ListHandler listHandler;
+
+    private PrintSearch printSearch;
+    private PrintList printList;
 
     public InputHandler() {
         searchHandler = new SearchHandler();
-        printHandler = new PrintHandler();
+        listHandler = new ListHandler();
+
+        printSearch = new PrintSearch();
+        printList = new PrintList();
     }
 
     /**
      * Performs the search depending on the arguments given.
-     * @param args arguments from main
+     * @param input arguments from main
      * @throws IOException
      */
-    public void handleSearch(String[] args) throws IOException {
+    public void handleSearch(String[] input) throws IOException {
         YouTube.Search.List search = youtube.search().list("snippet");
 
-        switch (args[1]){
+        switch (input[1]){
             case "channel":
-                printHandler.printChannels(searchHandler.search(search, args[2], 'c'));
+                printSearch.printChannels(searchHandler.search(search, input[2], 'c'));
                 break;
 
             case "video":
-                printHandler.printVideos(searchHandler.search(search, args[2], 'v'));
+                printSearch.printVideos(searchHandler.search(search, input[2], 'v'));
                 break;
 
             case "playlist":
-                printHandler.printPlaylists(searchHandler.search(search, args[2], 'p'));
+                printSearch.printPlaylists(searchHandler.search(search, input[2], 'p'));
+                break;
+
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    public void handleList(String[] input) throws IOException {
+        YouTube.Channels.List list;
+
+        switch (input[1]){
+            case "channel":
+                list = youtube.channels().list(
+                        "contentOwnerDetails,statistics,auditDetails,topicDetails");
+                printList.printChannels(listHandler.listChannel(list, input[2]));
+                break;
+
+            case "video":
+                break;
+
+            case "playlist":
                 break;
 
             default:

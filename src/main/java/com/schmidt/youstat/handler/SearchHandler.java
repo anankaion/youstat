@@ -17,6 +17,8 @@ public class SearchHandler {
      * @return an ArrayList containing the 25 first search results and all the data
      */
     public ArrayList<SearchResult> search(YouTube.Search.List search, String name, char type) throws IOException {
+        SearchListResponse response;
+
         search.setMaxResults((long) 25);
         search.setQ(name);
 
@@ -37,7 +39,7 @@ public class SearchHandler {
                 throw new IllegalArgumentException();
         }
 
-        SearchListResponse response = search.execute();
+        response = search.execute();
 
         return (ArrayList<SearchResult>) response.getItems();
     }

@@ -6,6 +6,7 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
@@ -115,6 +116,10 @@ public class YouStat {
                         inputHandler.handleSearch(input);
                         break;
 
+                    case "list":
+                        inputHandler.handleList(input);
+                        break;
+
                     default:
                         throw new IllegalArgumentException();
                 }
@@ -123,6 +128,8 @@ public class YouStat {
 
         } catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Too few arguments given.");
+        } catch (GoogleJsonResponseException e){
+            System.out.println("Insufficient Permission.");
         }
         catch (Throwable t) {
             t.printStackTrace();

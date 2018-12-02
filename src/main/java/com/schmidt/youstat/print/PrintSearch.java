@@ -1,11 +1,11 @@
-package com.schmidt.youstat.handler;
+package com.schmidt.youstat.print;
 
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.SearchResultSnippet;
 
 import java.util.ArrayList;
 
-public class PrintHandler {
+public class PrintSearch {
 
     /**
      * Prints all found channels in an eyepleasing manner.
