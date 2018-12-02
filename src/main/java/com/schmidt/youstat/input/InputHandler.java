@@ -1,12 +1,12 @@
-package com.schmidt.comfview.input;
+package com.schmidt.youstat.input;
 
 import com.google.api.services.youtube.YouTube;
-import com.schmidt.comfview.handler.PrintHandler;
-import com.schmidt.comfview.handler.SearchHandler;
+import com.schmidt.youstat.handler.PrintHandler;
+import com.schmidt.youstat.handler.SearchHandler;
 
 import java.io.IOException;
 
-import static com.schmidt.comfview.ComfView.youtube;
+import static com.schmidt.youstat.YouStat.youtube;
 
 public class InputHandler {
 
@@ -36,7 +36,7 @@ public class InputHandler {
                 break;
 
             case "playlist":
-                printHandler.printVideos(searchHandler.search(search, args[2], 'p'));
+                printHandler.printPlaylists(searchHandler.search(search, args[2], 'p'));
                 break;
 
             default:

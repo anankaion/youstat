@@ -1,4 +1,4 @@
-package com.schmidt.comfview.handler;
+package com.schmidt.youstat.handler;
 
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.SearchResultSnippet;
@@ -47,7 +47,7 @@ public class PrintHandler {
 
             System.out.println("Name:\t" + snippet.getTitle());
             System.out.println("Creator:\t" + snippet.getChannelTitle());
-            System.out.println("Desciption:\t" + snippet.getDescription());
+            System.out.println();
         }
     }
 }

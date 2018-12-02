@@ -1,4 +1,4 @@
-package com.schmidt.comfview.handler;
+package com.schmidt.youstat.handler;
 
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;

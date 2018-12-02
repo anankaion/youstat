@@ -1,4 +1,4 @@
-package com.schmidt.comfview;
+package com.schmidt.youstat;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -6,35 +6,31 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 
 import com.google.api.services.youtube.YouTubeScopes;
-import com.google.api.services.youtube.model.*;
 import com.google.api.services.youtube.YouTube;
-import com.schmidt.comfview.handler.PrintHandler;
-import com.schmidt.comfview.handler.SearchHandler;
-import com.schmidt.comfview.input.InputHandler;
+import com.schmidt.youstat.input.InputHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 
-public class ComfView {
+public class YouStat {
 
     /** Application name. */
     private static final String APPLICATION_NAME = "API Sample";
 
     /** Directory to store user credentials for this application. */
     private static final java.io.File DATA_STORE_DIR = new java.io.File(
-            System.getProperty("user.home"), ".credentials/comfview");
+            System.getProperty("user.home"), ".credentials/youstat");
 
     /** Global instance of the {@link FileDataStoreFactory}. */
     private static FileDataStoreFactory DATA_STORE_FACTORY;
@@ -72,7 +68,7 @@ public class ComfView {
     public static Credential authorize() throws IOException {
         // Load client secrets.
         InputStream in =
-                ComfView.class.getResourceAsStream("/client_secret.json");
+                YouStat.class.getResourceAsStream("/client_secret.json");
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
@@ -107,17 +103,28 @@ public class ComfView {
         youtube = getYouTubeService();
         InputHandler inputHandler = new InputHandler();
 
-        try {
-            switch (args[0]){
-                case "search":
-                    inputHandler.handleSearch(args);
-                    break;
+        Scanner scanner = new Scanner(System.in);
+        String[] input;
 
-                default:
-                    throw new IllegalArgumentException();
+        try {
+            while (true){
+                input = scanner.nextLine().split(" ");
+
+                switch (input[0]){
+                    case "search":
+                        inputHandler.handleSearch(input);
+                        break;
+
+                    default:
+                        throw new IllegalArgumentException();
+                }
+
             }
 
-        } catch (Throwable t) {
+        } catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Too few arguments given.");
+        }
+        catch (Throwable t) {
             t.printStackTrace();
         }
     }
