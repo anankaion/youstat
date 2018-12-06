@@ -53,16 +53,22 @@ public class InputHandler {
     }
 
     public void handleList(String[] input) throws IOException {
-        YouTube.Channels.List list;
+        YouTube.Channels.List channels;
+        YouTube.Videos.List videos;
 
         switch (input[1]){
             case "channel":
-                list = youtube.channels().list(
-                        "contentOwnerDetails,statistics,auditDetails,topicDetails");
-                printList.printChannels(listHandler.listChannel(list, input[2]));
+                channels = youtube.channels().list(
+                        "contentOwnerDetails,statistics,topicDetails"
+                );
+                printList.printChannel(listHandler.listChannel(channels, input[2]));
                 break;
 
             case "video":
+                videos = youtube.videos().list(
+                        "snippet,contentDetails,statistics"
+                );
+
                 break;
 
             case "playlist":

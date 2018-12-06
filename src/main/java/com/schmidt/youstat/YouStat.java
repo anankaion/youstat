@@ -120,6 +120,9 @@ public class YouStat {
                         inputHandler.handleList(input);
                         break;
 
+                    case "quit":
+                        System.exit(0);
+
                     default:
                         throw new IllegalArgumentException();
                 }
